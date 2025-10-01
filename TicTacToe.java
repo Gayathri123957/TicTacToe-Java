@@ -11,7 +11,6 @@ public class TicTacToe {
             {EMPTY, EMPTY, EMPTY}
     };
 
-    // Print the board
     static void printBoard() {
         System.out.println("---------");
         for (int i = 0; i < 3; i++) {
@@ -24,7 +23,6 @@ public class TicTacToe {
         System.out.println("---------");
     }
 
-    // Check if moves left
     static boolean isMovesLeft(char[][] b) {
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)
@@ -33,9 +31,7 @@ public class TicTacToe {
         return false;
     }
 
-    // Evaluate board
     static int evaluate(char[][] b) {
-        // Check rows
         for (int row = 0; row < 3; row++) {
             if (b[row][0] == b[row][1] && b[row][1] == b[row][2]) {
                 if (b[row][0] == AI) return +10;
@@ -43,7 +39,6 @@ public class TicTacToe {
             }
         }
 
-        // Check columns
         for (int col = 0; col < 3; col++) {
             if (b[0][col] == b[1][col] && b[1][col] == b[2][col]) {
                 if (b[0][col] == AI) return +10;
@@ -51,7 +46,6 @@ public class TicTacToe {
             }
         }
 
-        // Check diagonals
         if (b[0][0] == b[1][1] && b[1][1] == b[2][2]) {
             if (b[0][0] == AI) return +10;
             else if (b[0][0] == HUMAN) return -10;
@@ -65,17 +59,13 @@ public class TicTacToe {
         return 0;
     }
 
-    // Minimax function with recursion + backtracking
     static int minimax(char[][] b, int depth, boolean isMax) {
         int score = evaluate(b);
 
-        // If AI won
         if (score == 10) return score - depth;
 
-        // If HUMAN won
         if (score == -10) return score + depth;
 
-        // If draw
         if (!isMovesLeft(b)) return 0;
 
         if (isMax) {
@@ -97,7 +87,7 @@ public class TicTacToe {
                     if (b[i][j] == EMPTY) {
                         b[i][j] = HUMAN;
                         best = Math.min(best, minimax(b, depth + 1, true));
-                        b[i][j] = EMPTY; // backtrack
+                        b[i][j] = EMPTY; 
                     }
                 }
             }
@@ -105,7 +95,6 @@ public class TicTacToe {
         }
     }
 
-    // Find best move for AI
     static int[] findBestMove(char[][] b) {
         int bestVal = Integer.MIN_VALUE;
         int[] bestMove = {-1, -1};
@@ -128,7 +117,6 @@ public class TicTacToe {
         return bestMove;
     }
 
-    // Main game loop
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -136,7 +124,7 @@ public class TicTacToe {
         printBoard();
 
         while (true) {
-            // Human move
+
             System.out.print("Enter your move (row[1-3] col[1-3]): ");
             int row = sc.nextInt() - 1;
             int col = sc.nextInt() - 1;
@@ -157,7 +145,7 @@ public class TicTacToe {
                 break;
             }
 
-            // AI move
+
             int[] bestMove = findBestMove(board);
             board[bestMove[0]][bestMove[1]] = AI;
             System.out.println("AI has played:");
@@ -176,3 +164,4 @@ public class TicTacToe {
         sc.close();
     }
 }
+
